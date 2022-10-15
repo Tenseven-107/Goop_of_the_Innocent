@@ -621,7 +621,7 @@ scale_amount_curve = SubResource( 56 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 22 )
 animation = "Idle"
-frame = 3
+frame = 2
 
 [node name="Mouse" type="Sprite" parent="."]
 z_index = 100
