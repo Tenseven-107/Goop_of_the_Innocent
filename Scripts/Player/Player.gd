@@ -7,6 +7,9 @@ onready var weapon = $Knife
 onready var sprite = $AnimatedSprite
 onready var cursor = $Mouse
 
+onready var scarf = $Scarf
+onready var scarf_pos = $Scarf_pos
+
 onready var anim_tree = $AnimationTree
 
 export (bool) var can_move: bool = true
@@ -16,6 +19,7 @@ export (int) var run_multiplier: int = 2
 var velocity: Vector2 = Vector2()
 
 export (int) var cursor_damping: int = 30
+export (int) var max_scarf_length: int = 10
 
 var anim_playback: AnimationNodeStateMachinePlayback
 
@@ -37,6 +41,7 @@ func _physics_process(delta):
 	movement(delta)
 	move_anims()
 	mouse(delta)
+	generate_scarf()
 
 
 
@@ -78,13 +83,26 @@ func move_anims():
 # Mouse
 func mouse(delta):
 	var mpos = get_global_mouse_position()
-	cursor.global_position = lerp(global_position, mpos, delta * cursor_damping)
+	var origin = Vector2(global_position.x, global_position.y - 12)
+	cursor.global_position = lerp(origin, mpos, delta * cursor_damping)
 
 
 
 # Set camera
 func set_cam(cam_path: NodePath):
 	cam_transform.remote_path = cam_path
+
+
+
+# Generate trail
+func generate_scarf():
+	scarf.global_position = Vector2(0, 0)
+	scarf.global_rotation = 0
+
+	scarf.add_point(scarf_pos.global_position)
+
+	while scarf.get_point_count() > max_scarf_length:
+		scarf.remove_point(0)
 
 
 

@@ -1,0 +1,18 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Prefabs/Scenery/Tree_2.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Prefabs/Scenery/Rock.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Prefabs/Scenery/Rock_3.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Prefabs/Scenery/Tree.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Prefabs/Scenery/Tree_3.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Prefabs/Scenery/Tree_4.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Prefabs/Scenery/Rock_2.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scripts/Scenery/Scene_generator.gd" type="Script" id=8]
+
+[node name="Scene_generator" type="YSort"]
+script = ExtResource( 8 )
+scene_items = [ ExtResource( 2 ), ExtResource( 7 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 1 ), ExtResource( 5 ), ExtResource( 6 ) ]
+spawn_zone_x = 1000
+spawn_zone_y = 1000
+exlcluded_zone_x = 200
+exlcluded_zone_y = 200

@@ -1,16 +1,36 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Sprites/Scenery/Talisman.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Scenery/Sacrifical_circle.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/FX/Light.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/FX/Shadow.png" type="Texture" id=4]
 
-[node name="Sacrifical_circle" type="Node2D"]
+[sub_resource type="CanvasItemMaterial" id=1]
+blend_mode = 1
+
+[node name="Sacrifical_circle" type="YSort"]
 
 [node name="Circle" type="Sprite" parent="."]
 z_index = -5
 texture = ExtResource( 2 )
 
-[node name="Talisman" type="Node2D" parent="."]
+[node name="Talisman" type="YSort" parent="."]
 position = Vector2( 0, 13 )
 
-[node name="Sprite" type="Sprite" parent="Talisman"]
+[node name="Talisman_sprite" type="Sprite" parent="Talisman"]
+position = Vector2( 0, 4 )
 texture = ExtResource( 1 )
+offset = Vector2( 0.028, -7 )
+
+[node name="Talisman_light" type="Sprite" parent="Talisman/Talisman_sprite"]
+modulate = Color( 0.752941, 0.160784, 0.192157, 1 )
+material = SubResource( 1 )
+position = Vector2( -2, -7 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+
+[node name="Talisman_shadow" type="Sprite" parent="Talisman"]
+modulate = Color( 0, 0, 0, 1 )
+position = Vector2( 0, 3 )
+scale = Vector2( 0.328125, 0.09375 )
+texture = ExtResource( 4 )

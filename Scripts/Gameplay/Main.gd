@@ -8,6 +8,8 @@ var player_node = null
 
 # Set up
 func _ready():
+	randomize()
+
 	# Setting camera to player pos
 	player_node = get_tree().get_nodes_in_group("Player")
 	for player in player_node:
