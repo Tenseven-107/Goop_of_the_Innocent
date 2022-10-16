@@ -25,6 +25,7 @@ export (int) var max_scarf_length: int = 10
 var in_light: bool = false
 export (int) var hp: int = 0
 export (int) var max_hp: int = 25
+export (bool) var invincible: bool = false
 
 var drag_mode: bool = false
 
@@ -56,7 +57,7 @@ func _physics_process(delta):
 
 func _process(delta):
 	# Controlling hp
-	if in_light:
+	if in_light and !invincible:
 		taking_damage()
 		hp_bar.show()
 	elif !in_light and hp < max_hp:
@@ -77,7 +78,7 @@ func movement(delta):
 		velocity = velocity.normalized() * speed * delta
 		velocity = move_and_slide(velocity)
 
-		if Input.is_action_pressed("run"):
+		if Input.is_action_pressed("run") and !drag_mode:
 			speed *= run_multiplier
 		else:
 			speed = max_speed
@@ -97,7 +98,7 @@ func move_anims():
 		elif velocity.x > 0:
 			sprite.flip_h = true
 
-		if Input.is_action_pressed("run"):
+		if Input.is_action_pressed("run") and !drag_mode:
 			anim_playback.travel("Run")
 	else:
 		anim_playback.travel("Idle")

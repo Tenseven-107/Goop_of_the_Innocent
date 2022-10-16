@@ -649,7 +649,6 @@ height = 26.0
 
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 script = ExtResource( 1 )
-can_move = false
 
 [node name="Cam_transform" type="RemoteTransform2D" parent="."]
 position = Vector2( 0, -12 )
@@ -687,6 +686,7 @@ position = Vector2( 0, -15 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 22 )
 animation = "Idle"
+frame = 3
 offset = Vector2( 0, -13 )
 
 [node name="Mouse" type="Node2D" parent="."]
@@ -778,6 +778,8 @@ color = Color( 0.235294, 0.109804, 0.262745, 1 )
 polygon = PoolVector2Array( -2.86102e-06, 0, 5.33333, -5.33333, 32, 0, 5.33333, 5.33333 )
 
 [node name="Area2D" type="Area2D" parent="Knife"]
+collision_layer = 5
+collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Knife/Area2D"]
 position = Vector2( 29, 0 )

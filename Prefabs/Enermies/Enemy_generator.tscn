@@ -14,8 +14,8 @@ max_enemies = 2
 max_spawns = 300
 spawn_zone_x = 5000
 spawn_zone_y = 5000
-exlcluded_zone_x = 200
-exlcluded_zone_y = 200
+exlcluded_zone_x = 250
+exlcluded_zone_y = 250
 
 [node name="Enemy_container" type="YSort" parent="."]
 

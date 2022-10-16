@@ -13,6 +13,8 @@ onready var anims = $Anims
 
 onready var vis = $VisibilityNotifier2D
 
+onready var eye_sfx = $SFX/Eye_scan
+
 var body_container = null
 
 var speed: int = 3000
@@ -48,6 +50,8 @@ func _physics_process(delta):
 			if wait_timer.is_stopped():
 				wait_timer.start()
 
+				eye_sfx.playing = true
+
 			if eye_timer.is_stopped():
 				rand_rot = rand_range(-1, 360)
 				eye_timer.start()
@@ -60,6 +64,8 @@ func _physics_process(delta):
 		ROAM:
 			if roam_timer.is_stopped():
 				roam_timer.start()
+
+				eye_sfx.playing = false
 
 			rand_dir = int(rand_range(0, 5))
 			match rand_dir:

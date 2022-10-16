@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Sprites/Enemies/Knight.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/FX/Light_view.png" type="Texture" id=2]
@@ -6,9 +6,12 @@
 [ext_resource path="res://Scripts/Enemies/Enemy_knight.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/Gameplay/Light_zone.gd" type="Script" id=5]
 [ext_resource path="res://Prefabs/Enermies/Body_knight.tscn" type="PackedScene" id=6]
+[ext_resource path="res://SFX/SFX/cartoony_step_1.wav" type="AudioStream" id=7]
+[ext_resource path="res://addons/randomAudioStreamPlayer/random_audio_stream_player_2D.gd" type="Script" id=8]
+[ext_resource path="res://SFX/SFX/Eye_scan.wav" type="AudioStream" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 10, 3 )
+extents = Vector2( 10, 12 )
 
 [sub_resource type="CanvasItemMaterial" id=2]
 blend_mode = 1
@@ -85,12 +88,32 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 0.8, 1 ), Vector2( 1.05, 0.95 ), Vector2( 1, 1 ), Vector2( 0.8, 1 ), Vector2( 1.05, 0.95 ), Vector2( 1, 1 ) ]
 }
+tracks/2/type = "method"
+tracks/2/path = NodePath("SFX/Footstep")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.2, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+}, {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
 
 [node name="Enemy_knight" type="KinematicBody2D" groups=["Enemies"]]
+collision_layer = 4
+collision_mask = 4
 script = ExtResource( 4 )
 body = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -12 )
 shape = SubResource( 1 )
 
 [node name="Eye_timer" type="Timer" parent="."]
@@ -134,6 +157,21 @@ polygon = PoolVector2Array( -5, -12, -5, -16, -3, -18, 3, -18, 5, -15, 5, -7, -5
 [node name="Sprite" type="Sprite" parent="Character/Sprites"]
 texture = ExtResource( 1 )
 offset = Vector2( 0, -16 )
+
+[node name="SFX" type="Node2D" parent="."]
+
+[node name="Footstep" type="AudioStreamPlayer2D" parent="SFX"]
+attenuation = 17.7531
+bus = "Enemies"
+script = ExtResource( 8 )
+samples = [ ExtResource( 7 ) ]
+random_volume_range = 0
+random_pitch_range = 0.5
+
+[node name="Eye_scan" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource( 9 )
+attenuation = 30.0
+bus = "Enemies"
 
 [node name="Anims" type="AnimationPlayer" parent="."]
 anims/idle = SubResource( 4 )

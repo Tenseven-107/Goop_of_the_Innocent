@@ -11,6 +11,9 @@ onready var anims = $Anims
 
 onready var vis = $VisibilityNotifier2D
 
+onready var light_sfx = $SFX/Spawn_light
+onready var particles = $Character/Sprites/Light_spell_fx
+
 var body_container = null
 
 var speed: int = 3000
@@ -47,6 +50,9 @@ func _physics_process(delta):
 				var spell_inst = spell.instance()
 				spell_inst.global_position = global_position
 				get_parent().call_deferred("add_child", spell_inst)
+
+				light_sfx.play()
+				particles.emitting = true
 
 			velocity = Vector2(0, 0)
 			anims.play("idle")

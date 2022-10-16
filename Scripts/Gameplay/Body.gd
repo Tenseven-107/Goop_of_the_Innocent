@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends KinematicBody2D
 
 
 onready var interaction_box = $Interaction_box/CollisionShape2D
@@ -12,7 +12,15 @@ onready var goop_timer = $Goop_timer
 onready var goop_trail = $Goop_trail
 onready var goop_particles_trail = $CPUParticles2D2
 
+onready var dust = $CPUParticles2D3
+
+onready var kill = $SFX/Kill
+onready var dragging = $SFX/Dragging
+
 var player = null
+
+var speed: int = 4000
+var velocity: Vector2 = Vector2()
 
 export (int) var trail_length: int = 10
 
@@ -25,8 +33,11 @@ func _ready():
 	goop_timer.start()
 	goop_particles.emitting = true
 	goop_particles_trail.emitting = false
+	dust.emitting = false
 
 	text.modulate = Color(1, 1, 1, 0)
+
+	kill.play()
 
 
 
@@ -44,6 +55,16 @@ func _physics_process(delta):
 
 	if drag_mode and is_instance_valid(player):
 		global_position = player.global_position
+		velocity = player.velocity
+		velocity = move_and_slide(velocity)
+
+		if velocity != Vector2.ZERO:
+			if not dragging.is_playing():
+				dragging.playing = true
+			dust.emitting = true
+		else:
+			dragging.playing = false
+			dust.emitting = false
 
 		generate_trail()
 		goop_particles_trail.emitting = true
@@ -54,6 +75,7 @@ func _physics_process(delta):
 func sacrifice():
 	if is_instance_valid(player):
 		player.drag_mode = false
+		queue_free()
 
 
 
@@ -77,6 +99,8 @@ func _on_Interaction_box_body_exited(body: Node):
 	if body.is_in_group("Player"):
 		tut_timer.stop()
 		text.hide()
+
+		active = false
 
 
 

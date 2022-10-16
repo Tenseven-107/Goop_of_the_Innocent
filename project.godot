@@ -115,6 +115,12 @@ drag={
  ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Player and world"
+2d_physics/layer_2="Bodies"
+2d_physics/layer_3="Enemies"
+
 [physics]
 
 common/enable_pause_aware_picking=true
