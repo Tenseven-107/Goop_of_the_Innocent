@@ -6,6 +6,7 @@ onready var weapon = $Knife
 
 onready var sprite = $AnimatedSprite
 onready var cursor = $Mouse
+onready var hp_bar = $Mouse/Hp_bar
 
 onready var scarf = $Scarf
 onready var scarf_pos = $Scarf_pos
@@ -21,6 +22,12 @@ var velocity: Vector2 = Vector2()
 export (int) var cursor_damping: int = 30
 export (int) var max_scarf_length: int = 10
 
+var in_light: bool = false
+export (int) var hp: int = 0
+export (int) var max_hp: int = 25
+
+var drag_mode: bool = false
+
 var anim_playback: AnimationNodeStateMachinePlayback
 
 
@@ -28,7 +35,11 @@ var anim_playback: AnimationNodeStateMachinePlayback
 # Set up
 func _ready():
 	can_move = false
+	in_light = false
 	weapon.initialize(self)
+
+	hp = max_hp
+	hp_bar.max_value = max_hp
 
 	anim_tree.active = true
 	anim_playback = anim_tree.get("parameters/playback")
@@ -39,9 +50,20 @@ func _ready():
 # processes
 func _physics_process(delta):
 	movement(delta)
-	move_anims()
 	mouse(delta)
 	generate_scarf()
+
+
+func _process(delta):
+	# Controlling hp
+	if in_light:
+		taking_damage()
+		hp_bar.show()
+	elif !in_light and hp < max_hp:
+		regenerating()
+		hp_bar.show()
+	elif !in_light:
+		hp_bar.hide()
 
 
 
@@ -60,6 +82,8 @@ func movement(delta):
 		else:
 			speed = max_speed
 		speed = int(clamp(speed, 0, max_speed * run_multiplier))
+
+		move_anims()
 
 
 
@@ -106,9 +130,32 @@ func generate_scarf():
 
 
 
-# Player death
+# Player handling damage
+func taking_damage():
+	hp -= 1
+	hp = int(clamp(hp, 0, max_hp))
+
+	hp_bar.value = hp
+
+	if hp <= 0:
+		die()
+
+
+func regenerating():
+	if hp < max_hp:
+		hp += 1
+		hp = int(clamp(hp, 0, max_hp))
+
+		hp_bar.value = hp
+
+
 func die():
+	can_move = false
+	weapon.active = false
 	anim_playback.travel("Die")
+
+
+
 
 
 

@@ -1,14 +1,19 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Sprites/Scenery/Talisman.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Scenery/Sacrifical_circle.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/FX/Light.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/FX/Shadow.png" type="Texture" id=4]
+[ext_resource path="res://Scripts/Gameplay/Sacrifical_circle.gd" type="Script" id=5]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 blend_mode = 1
 
+[sub_resource type="CircleShape2D" id=2]
+radius = 65.9
+
 [node name="Sacrifical_circle" type="YSort"]
+script = ExtResource( 5 )
 
 [node name="Circle" type="Sprite" parent="."]
 z_index = -5
@@ -35,3 +40,14 @@ modulate = Color( 0, 0, 0, 1 )
 position = Vector2( 0, 3 )
 scale = Vector2( 0.328125, 0.09375 )
 texture = ExtResource( 4 )
+
+[node name="Offering_zone" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Offering_zone"]
+position = Vector2( 0, 20 )
+scale = Vector2( 1, 0.468 )
+shape = SubResource( 2 )
+
+[connection signal="body_entered" from="Offering_zone" to="." method="_on_Offering_zone_body_entered"]

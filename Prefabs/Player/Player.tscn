@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=2]
+[gd_scene load_steps=65 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Player/Player.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://SFX/SFX/Footstep_1.wav" type="AudioStream" id=9]
 [ext_resource path="res://Sprites/Player/Scarf.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/FX/Light.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/UI/HP_bar.png" type="Texture" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7.5, 2.5 )
@@ -211,6 +212,46 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:can_move")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.45 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath("Mouse")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "hide"
+} ]
 }
 
 [sub_resource type="Animation" id=25]
@@ -461,6 +502,7 @@ auto_advance = true
 [sub_resource type="AnimationNodeStateMachineTransition" id=42]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=43]
+disabled = true
 
 [sub_resource type="AnimationNodeStateMachine" id=44]
 states/Die/node = SubResource( 29 )
@@ -475,8 +517,8 @@ states/Walk/node = SubResource( 33 )
 states/Walk/position = Vector2( 305, 213 )
 transitions = [ "Wake_up", "Idle", SubResource( 34 ), "Idle", "Wake_up", SubResource( 35 ), "Walk", "Run", SubResource( 36 ), "Run", "Walk", SubResource( 37 ), "Walk", "Idle", SubResource( 38 ), "Idle", "Walk", SubResource( 39 ), "Run", "Idle", SubResource( 40 ), "Idle", "Run", SubResource( 41 ), "Idle", "Die", SubResource( 42 ), "Die", "Idle", SubResource( 43 ) ]
 start_node = "Wake_up"
-end_node = "Idle"
-graph_offset = Vector2( -66, 138 )
+end_node = "Die"
+graph_offset = Vector2( -78, -21 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=45]
 
@@ -607,6 +649,7 @@ height = 26.0
 
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 script = ExtResource( 1 )
+can_move = false
 
 [node name="Cam_transform" type="RemoteTransform2D" parent="."]
 position = Vector2( 0, -12 )
@@ -644,15 +687,27 @@ position = Vector2( 0, -15 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 22 )
 animation = "Idle"
-frame = 2
 offset = Vector2( 0, -13 )
 
-[node name="Mouse" type="Sprite" parent="."]
+[node name="Mouse" type="Node2D" parent="."]
 position = Vector2( 0, -12 )
 z_index = 100
+
+[node name="Hp_bar" type="TextureProgress" parent="Mouse"]
+margin_left = -16.0
+margin_top = -16.0
+margin_right = 24.0
+margin_bottom = 24.0
+max_value = 50.0
+step = 0.5
+value = 50.0
+texture_progress = ExtResource( 12 )
+fill_mode = 4
+
+[node name="Mouse_sprite" type="Sprite" parent="Mouse"]
 texture = ExtResource( 3 )
 
-[node name="Mouse_light" type="Sprite" parent="Mouse"]
+[node name="Mouse_light" type="Sprite" parent="Mouse/Mouse_sprite"]
 modulate = Color( 0.631373, 0.239216, 0.466667, 1 )
 material = SubResource( 58 )
 scale = Vector2( 0.1, 0.1 )
@@ -683,6 +738,7 @@ random_pitch_range = 0.5
 
 [node name="Knife" type="Node2D" parent="."]
 position = Vector2( 0, -12 )
+z_index = 4
 script = ExtResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Knife"]

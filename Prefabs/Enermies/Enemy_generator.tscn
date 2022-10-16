@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/Gameplay/Enemy_generator.gd" type="Script" id=1]
+[ext_resource path="res://Prefabs/Enermies/Enemy_knight.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Prefabs/Enermies/Enemy_mage.tscn" type="PackedScene" id=3]
+
+[node name="Enemy_generator" type="YSort"]
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
+enemies = [ ExtResource( 2 ), ExtResource( 3 ) ]
+max_enemies = 2
+max_spawns = 300
+spawn_zone_x = 5000
+spawn_zone_y = 5000
+exlcluded_zone_x = 200
+exlcluded_zone_y = 200
+
+[node name="Enemy_container" type="YSort" parent="."]
+
+[node name="Body_container" type="YSort" parent="."]
+
+[node name="Spawn_timer" type="Timer" parent="."]

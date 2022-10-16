@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Sprites/Scenery/Torch.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Scenery/Object_vis.gd" type="Script" id=2]
 [ext_resource path="res://Sprites/FX/Light.png" type="Texture" id=3]
+[ext_resource path="res://Scripts/Gameplay/Light_zone.gd" type="Script" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 52.0384
@@ -16,6 +17,7 @@ offset = Vector2( 0, -15.065 )
 
 [node name="Damage_zone" type="Area2D" parent="."]
 position = Vector2( 0, -16 )
+script = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Damage_zone"]
 shape = SubResource( 1 )
@@ -28,3 +30,6 @@ texture = ExtResource( 3 )
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 position = Vector2( -6.67572e-06, -16 )
 scale = Vector2( 7.2, 7.2 )
+
+[connection signal="body_entered" from="Damage_zone" to="Damage_zone" method="_on_Damage_zone_body_entered"]
+[connection signal="body_exited" from="Damage_zone" to="Damage_zone" method="_on_Damage_zone_body_exited"]
