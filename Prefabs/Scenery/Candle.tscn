@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Sprites/Scenery/Candle.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/Scenery/Object_vis.gd" type="Script" id=2]
+[ext_resource path="res://Sprites/FX/Light.png" type="Texture" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 27.074
+
+[node name="Candle" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Candle" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+offset = Vector2( 0, -15.065 )
+
+[node name="Damage_zone" type="Area2D" parent="."]
+position = Vector2( -1, -9 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Damage_zone"]
+shape = SubResource( 1 )
+
+[node name="Light" type="Sprite" parent="Damage_zone"]
+modulate = Color( 0.937255, 0.796078, 0.517647, 1 )
+scale = Vector2( 0.5, 0.5 )
+z_index = 5
+texture = ExtResource( 3 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+position = Vector2( 2.86102e-06, -8 )
+scale = Vector2( 3.2, 3.2 )

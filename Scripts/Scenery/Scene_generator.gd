@@ -23,7 +23,7 @@ func _ready():
 # Generate scene
 func generate():
 	for spawn in max_spawns:
-		var picked_item = rand_range(-1, max_items - 1)
+		var picked_item = rand_range(-1, max_items)
 		var item = scene_items[picked_item].instance()
 
 		var x = rand_range(-spawn_zone_x, spawn_zone_x)

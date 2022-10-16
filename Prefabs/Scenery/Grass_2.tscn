@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Sprites/Scenery/Grass_2.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/Scenery/Object_vis.gd" type="Script" id=2]
+
+[node name="Grass" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Grass" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+offset = Vector2( 0, -15.065 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+position = Vector2( -2.38419e-07, -12 )
+scale = Vector2( 1.6, 1.2 )

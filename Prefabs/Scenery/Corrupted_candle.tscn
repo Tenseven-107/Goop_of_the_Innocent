@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sprites/Scenery/Candle_corrupted.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/Scenery/Object_vis.gd" type="Script" id=2]
+[ext_resource path="res://Sprites/FX/Light.png" type="Texture" id=3]
+
+[node name="Corrupted_candle" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Corrupted_candle" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+offset = Vector2( 0, -15.065 )
+
+[node name="Light" type="Sprite" parent="Corrupted_candle"]
+modulate = Color( 0.631373, 0.239216, 0.466667, 1 )
+position = Vector2( -1, -10 )
+scale = Vector2( 0.5, 0.5 )
+z_index = 5
+texture = ExtResource( 3 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+position = Vector2( -4.76837e-07, -16 )
+scale = Vector2( 3.2, 3.2 )
