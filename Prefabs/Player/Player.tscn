@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Player/Player.png" type="Texture" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Sprites/Player/Scarf.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/FX/Light.png" type="Texture" id=11]
 [ext_resource path="res://Sprites/UI/HP_bar.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/UI/Circle_pointer.png" type="Texture" id=13]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7.5, 2.5 )
@@ -129,9 +130,6 @@ animations = [ {
 "name": "Walk",
 "speed": 5.0
 } ]
-
-[sub_resource type="CanvasItemMaterial" id=58]
-blend_mode = 1
 
 [sub_resource type="Animation" id=23]
 resource_name = "Default"
@@ -522,6 +520,9 @@ graph_offset = Vector2( -78, -21 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=45]
 
+[sub_resource type="CanvasItemMaterial" id=58]
+blend_mode = 1
+
 [sub_resource type="Animation" id=46]
 resource_name = "Attack"
 length = 0.12
@@ -689,6 +690,20 @@ animation = "Idle"
 frame = 3
 offset = Vector2( 0, -13 )
 
+[node name="Player_anims" type="AnimationPlayer" parent="."]
+anims/Default = SubResource( 23 )
+anims/Die = SubResource( 24 )
+anims/Idle = SubResource( 25 )
+anims/Run = SubResource( 26 )
+anims/Wake_up = SubResource( 27 )
+anims/Walk = SubResource( 28 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 44 )
+anim_player = NodePath("../Player_anims")
+active = true
+parameters/playback = SubResource( 45 )
+
 [node name="Mouse" type="Node2D" parent="."]
 position = Vector2( 0, -12 )
 z_index = 100
@@ -713,28 +728,14 @@ material = SubResource( 58 )
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 11 )
 
-[node name="Player_anims" type="AnimationPlayer" parent="."]
-anims/Default = SubResource( 23 )
-anims/Die = SubResource( 24 )
-anims/Idle = SubResource( 25 )
-anims/Run = SubResource( 26 )
-anims/Wake_up = SubResource( 27 )
-anims/Walk = SubResource( 28 )
+[node name="Circle_pointer" type="Node2D" parent="."]
+position = Vector2( 0, -12 )
+z_index = 99
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 44 )
-anim_player = NodePath("../Player_anims")
-active = true
-parameters/playback = SubResource( 45 )
-
-[node name="SFX" type="Node2D" parent="."]
-
-[node name="Footstep" type="AudioStreamPlayer2D" parent="SFX"]
-bus = "Player"
-script = ExtResource( 7 )
-samples = [ ExtResource( 9 ) ]
-random_volume_range = 0
-random_pitch_range = 0.5
+[node name="Sprite" type="Sprite" parent="Circle_pointer"]
+position = Vector2( -16, 0 )
+texture = ExtResource( 13 )
+flip_h = true
 
 [node name="Knife" type="Node2D" parent="."]
 position = Vector2( 0, -12 )
@@ -790,6 +791,15 @@ disabled = true
 [node name="Attack_timer" type="Timer" parent="Knife"]
 wait_time = 0.25
 one_shot = true
+
+[node name="SFX" type="Node2D" parent="."]
+
+[node name="Footstep" type="AudioStreamPlayer2D" parent="SFX"]
+bus = "Player"
+script = ExtResource( 7 )
+samples = [ ExtResource( 9 ) ]
+random_volume_range = 0
+random_pitch_range = 0.5
 
 [connection signal="body_entered" from="Knife/Area2D" to="Knife" method="_on_Area2D_body_entered"]
 [connection signal="timeout" from="Knife/Attack_timer" to="Knife" method="_on_Attack_timer_timeout"]

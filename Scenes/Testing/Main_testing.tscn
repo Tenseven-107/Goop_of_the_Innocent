@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Prefabs/Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Gameplay/Main.gd" type="Script" id=2]
@@ -21,6 +21,8 @@
 [ext_resource path="res://Sprites/Scenery/Black_block.png" type="Texture" id=19]
 [ext_resource path="res://Sprites/Scenery/Black_border.png" type="Texture" id=20]
 [ext_resource path="res://Sprites/Scenery/Black_border_corner.png" type="Texture" id=21]
+[ext_resource path="res://Prefabs/Scenery/Ambience_SFX.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Prefabs/Scenery/Dust_foreground.tscn" type="PackedScene" id=23]
 
 [sub_resource type="ConvexPolygonShape2D" id=5]
 points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
@@ -143,7 +145,6 @@ region_enabled = true
 region_rect = Rect2( 10000, 10000, 10000, 10000 )
 
 [node name="Player" parent="World" instance=ExtResource( 1 )]
-invincible = true
 
 [node name="Important" type="YSort" parent="World"]
 
@@ -237,6 +238,10 @@ exlcluded_zone_y = 125
 [node name="Enemies" type="YSort" parent="World"]
 
 [node name="Enemy_generator" parent="World/Enemies" instance=ExtResource( 16 )]
+
+[node name="Ambience_SFX" parent="." instance=ExtResource( 22 )]
+
+[node name="Dust_foreground" parent="." instance=ExtResource( 23 )]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 3 )

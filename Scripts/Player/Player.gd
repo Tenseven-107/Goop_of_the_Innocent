@@ -6,6 +6,7 @@ onready var weapon = $Knife
 
 onready var sprite = $AnimatedSprite
 onready var cursor = $Mouse
+onready var circle_pointer = $Circle_pointer
 onready var hp_bar = $Mouse/Hp_bar
 
 onready var scarf = $Scarf
@@ -28,6 +29,8 @@ export (int) var max_hp: int = 25
 export (bool) var invincible: bool = false
 
 var drag_mode: bool = false
+
+export (Vector2) var circle_pos: Vector2 = Vector2(0, -88)
 
 var anim_playback: AnimationNodeStateMachinePlayback
 
@@ -65,6 +68,14 @@ func _process(delta):
 		hp_bar.show()
 	elif !in_light:
 		hp_bar.hide()
+
+	if drag_mode:
+		circle_pointer.rotation = global_position.angle_to_point(circle_pos)
+		circle_pointer.show()
+		weapon.active = false
+	else:
+		circle_pointer.hide()
+		weapon.active = true
 
 
 

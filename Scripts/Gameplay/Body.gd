@@ -59,7 +59,7 @@ func _physics_process(delta):
 		velocity = move_and_slide(velocity)
 
 		if velocity != Vector2.ZERO:
-			if not dragging.is_playing():
+			if !dragging.is_playing():
 				dragging.playing = true
 			dust.emitting = true
 		else:
