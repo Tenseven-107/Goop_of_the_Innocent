@@ -22,11 +22,11 @@ onready var growl_sfx = $SFX/Monster_growl
 
 var player = null
 
-var speed: int = 4000
+var speed: int = 2000
 var velocity: Vector2 = Vector2()
 
 export (int) var aggression: int = 0
-export (int) var needed_aggression: int = 15
+export (int) var needed_aggression: int = 30
 
 var rand_rot: float
 var rand_dir: int

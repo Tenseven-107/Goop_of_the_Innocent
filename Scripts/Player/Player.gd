@@ -14,6 +14,11 @@ onready var scarf_pos = $Scarf_pos
 
 onready var anim_tree = $AnimationTree
 
+onready var restart_timer = $Restart_timer
+
+onready var damage_sfx = $SFX/Enter_light
+onready var death_sfx = $SFX/Death
+
 export (bool) var can_move: bool = true
 var speed: int = 0
 export (int) var max_speed: int = 6000
@@ -29,6 +34,7 @@ export (int) var max_hp: int = 25
 export (bool) var invincible: bool = false
 
 var drag_mode: bool = false
+var dead: bool = false
 
 export (Vector2) var circle_pos: Vector2 = Vector2(0, -88)
 
@@ -149,22 +155,42 @@ func taking_damage():
 
 	hp_bar.value = hp
 
-	if hp <= 0:
+	if !damage_sfx.is_playing():
+		damage_sfx.play()
+
+	if hp <= 0 or dead:
 		die()
 
 
 func regenerating():
-	if hp < max_hp:
+	if hp < max_hp and !dead:
 		hp += 1
 		hp = int(clamp(hp, 0, max_hp))
+		damage_sfx.stop()
 
 		hp_bar.value = hp
 
 
 func die():
 	can_move = false
+	dead = true
+	invincible = true
 	weapon.active = false
+
+	if !death_sfx.is_playing():
+		death_sfx.play()
 	anim_playback.travel("Die")
+	restart_timer.start()
+
+
+func _on_Restart_timer_timeout():
+	get_tree().reload_current_scene()
+
+
+
+# Shake cam
+func shake():
+	GlobalSignals.emit_signal("shake", 0.1, 5)
 
 
 

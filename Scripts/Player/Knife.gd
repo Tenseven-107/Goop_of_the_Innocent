@@ -23,6 +23,7 @@ func _physics_process(delta):
 	look_at(get_global_mouse_position())
 	if Input.is_action_just_pressed("attack") and timer.is_stopped() and active:
 		anims.play("Attack")
+		GlobalSignals.emit_signal("shake", 0.01, 2)
 		timer.start()
 
 		if is_instance_valid(player):

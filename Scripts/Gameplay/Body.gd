@@ -17,6 +17,8 @@ onready var dust = $CPUParticles2D3
 onready var kill = $SFX/Kill
 onready var dragging = $SFX/Dragging
 
+onready var anims = $anims
+
 var player = null
 
 var speed: int = 4000
@@ -26,6 +28,7 @@ export (int) var trail_length: int = 10
 
 var drag_mode: bool = false
 var active: bool = false
+export (bool) var silent: bool = false
 
 
 # Set up
@@ -37,7 +40,11 @@ func _ready():
 
 	text.modulate = Color(1, 1, 1, 0)
 
-	kill.play()
+	GlobalSignals.emit_signal("hit", 0.01)
+
+	if !silent:
+		kill.play()
+	anims.play("Default")
 
 
 
@@ -68,6 +75,9 @@ func _physics_process(delta):
 
 		generate_trail()
 		goop_particles_trail.emitting = true
+	else:
+		dust.emitting = false
+		dragging.stop()
 
 
 
@@ -75,7 +85,12 @@ func _physics_process(delta):
 func sacrifice():
 	if is_instance_valid(player):
 		player.drag_mode = false
-		queue_free()
+		drag_mode = false
+		active = false
+
+		dust.emitting = false
+		dragging.playing = false
+		anims.play("Offer")
 
 
 

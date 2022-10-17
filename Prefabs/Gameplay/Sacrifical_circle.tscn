@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Sprites/Scenery/Talisman.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Scenery/Sacrifical_circle.png" type="Texture" id=2]
@@ -8,6 +8,37 @@
 [ext_resource path="res://SFX/SFX/circle_idle.wav" type="AudioStream" id=6]
 [ext_resource path="res://Sprites/FX/Talisman_particle.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/FX/Knife_puff.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/UI/Fonts/CHILLER.TTF" type="DynamicFontData" id=9]
+[ext_resource path="res://SFX/SFX/Destruction.wav" type="AudioStream" id=10]
+[ext_resource path="res://SFX/SFX/Finnish_sound.wav" type="AudioStream" id=11]
+[ext_resource path="res://Sprites/FX/Eye_talisman.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/FX/Mouth_talisman.png" type="Texture" id=13]
+[ext_resource path="res://SFX/SFX/Well_done_message.wav" type="AudioStream" id=14]
+
+[sub_resource type="Shader" id=8]
+code = "shader_type canvas_item;
+
+uniform bool active = false;
+
+void fragment() {
+	vec4 previous_color = texture(TEXTURE, UV);
+	vec4 white_color = vec4(1.0, 1.0, 1.0, previous_color.a);
+	vec4 new_color = previous_color;
+	if (active == true)
+	{
+		new_color = white_color
+	}
+	COLOR = new_color;
+}"
+
+[sub_resource type="ShaderMaterial" id=9]
+resource_local_to_scene = true
+shader = SubResource( 8 )
+shader_param/active = false
+
+[sub_resource type="DynamicFont" id=12]
+size = 34
+font_data = ExtResource( 9 )
 
 [sub_resource type="Curve" id=6]
 max_value = 100.0
@@ -21,6 +52,148 @@ blend_mode = 1
 
 [sub_resource type="Curve" id=3]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.242574, 0.972727 ), 0.0, 0.0, 0, 0, Vector2( 0.737624, 0.981818 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="AtlasTexture" id=19]
+atlas = ExtResource( 13 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = ExtResource( 13 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = ExtResource( 13 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 13 )
+region = Rect2( 96, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = ExtResource( 13 )
+region = Rect2( 128, 0, 32, 32 )
+
+[sub_resource type="SpriteFrames" id=24]
+animations = [ {
+"frames": [ SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="Animation" id=18]
+resource_name = "Alive"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Talisman_sprite/Face:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Talisman_sprite/Talisman_particles:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Talisman_sprite:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.8, 1.1, 1.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 4 ), Vector2( 0, 0 ), Vector2( 0, -1 ), Vector2( 0, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Talisman_sprite:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1.2, 1.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 2.1, 2.1 ), Vector2( 2, 2 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Talisman_sprite/Face/Right_eye:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 1.5, 1.6, 1.7, 2.1, 2.2, 2.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 0.5 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 0.5 ), Vector2( 1, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Talisman_sprite/Face/Left_eye:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 1.6, 1.7, 1.8, 2, 2.1, 2.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 0.5 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 0.5 ), Vector2( 1, 1 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Talisman_sprite/Face/Mouth:animation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "default" ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Talisman_sprite/Face/Mouth:frame")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 1.5, 1.6, 1.7, 2, 2.1, 2.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 0 ]
+}
+tracks/8/type = "method"
+tracks/8/path = NodePath("../SFX/Well_done")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 1.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
 
 [sub_resource type="Animation" id=4]
 resource_name = "Default"
@@ -60,6 +233,30 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 0, 3 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Talisman_sprite:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Talisman_sprite/Face:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -113,16 +310,341 @@ tracks/3/keys = {
 "update": 0,
 "values": [ Vector2( 0, 3 ), Vector2( 0, 5 ), Vector2( 0, 3 ) ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("Talisman_sprite/Face:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=10]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Talisman_sprite:material:shader_param/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "Revieve_offer"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Talisman_sprite:material:shader_param/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.25, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Talisman_sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 4 ), Vector2( 0, -5 ), Vector2( 0, -3 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Talisman_sprite/Talisman_particles:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Talisman_sprite/Talisman_particles:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.1, 0.15, 0.2, 0.25, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false, true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("..:anim_loop")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Talisman_sprite:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.1, 0.15, 0.25, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Talisman_sprite/Face:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 65.9
+
+[sub_resource type="Animation" id=15]
+resource_name = "Default"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Screen_fx:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=17]
+resource_name = "End"
+length = 6.0
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Screen_fx:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Screen_fx/White:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Screen_fx/Invert:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 4.6, 4.8, 5, 5.2, 5.4, 5.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true, false, true, false, true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Screen_fx/Black:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 5.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Screen_fx/Black:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 5.6, 5.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Screen_fx/White:color")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.55, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath("SFX/Finish")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
+tracks/7/type = "method"
+tracks/7/path = NodePath("SFX/End")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 4.85 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
+
+[sub_resource type="Animation" id=16]
+resource_name = "First"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Screen_fx:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Screen_fx/Invert:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Screen_fx/Black:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Screen_fx/White:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Screen_fx/White:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Shader" id=13]
+code = "shader_type canvas_item;
+
+void fragment() {
+	COLOR.rgb = 1.0 - textureLod(SCREEN_TEXTURE, SCREEN_UV, 0.0).rgb;
+	COLOR.a = texture(TEXTURE , UV).a;
+}"
+
+[sub_resource type="ShaderMaterial" id=14]
+shader = SubResource( 13 )
 
 [node name="Sacrifical_circle" type="YSort"]
 script = ExtResource( 5 )
 
 [node name="Circle" type="Sprite" parent="."]
+material = SubResource( 9 )
 z_index = -5
 texture = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="Circle"]
+margin_left = -62.0
+margin_top = 99.0
+margin_right = 62.0
+margin_bottom = 139.0
+rect_scale = Vector2( 1, 0.7 )
+custom_colors/font_color = Color( 0.631373, 0.239216, 0.466667, 1 )
+custom_fonts/font = SubResource( 12 )
+text = "Sacrifice him"
+align = 1
 
 [node name="Circle_particles" type="CPUParticles2D" parent="."]
 texture = ExtResource( 8 )
@@ -143,6 +665,7 @@ scale_amount_curve = SubResource( 7 )
 position = Vector2( 0, 13 )
 
 [node name="Talisman_sprite" type="Sprite" parent="Talisman"]
+material = SubResource( 9 )
 position = Vector2( 0, 4 )
 texture = ExtResource( 1 )
 offset = Vector2( 0.028, -7 )
@@ -156,8 +679,9 @@ z_index = 5
 texture = ExtResource( 3 )
 
 [node name="Talisman_particles" type="CPUParticles2D" parent="Talisman/Talisman_sprite"]
-position = Vector2( 0, -4 )
+position = Vector2( 0, -2 )
 z_index = -1
+emitting = false
 local_coords = false
 texture = ExtResource( 7 )
 spread = 180.0
@@ -170,6 +694,22 @@ scale_amount = 1.5
 scale_amount_random = 1.0
 scale_amount_curve = SubResource( 3 )
 
+[node name="Face" type="Node2D" parent="Talisman/Talisman_sprite"]
+visible = false
+position = Vector2( 0, -17 )
+
+[node name="Right_eye" type="Sprite" parent="Talisman/Talisman_sprite/Face"]
+position = Vector2( 10, 0 )
+texture = ExtResource( 12 )
+
+[node name="Left_eye" type="Sprite" parent="Talisman/Talisman_sprite/Face"]
+position = Vector2( -10, 0 )
+texture = ExtResource( 12 )
+
+[node name="Mouth" type="AnimatedSprite" parent="Talisman/Talisman_sprite/Face"]
+position = Vector2( 0, 13 )
+frames = SubResource( 24 )
+
 [node name="Talisman_shadow" type="Sprite" parent="Talisman"]
 modulate = Color( 0, 0, 0, 1 )
 position = Vector2( 0, 3 )
@@ -178,8 +718,11 @@ z_index = -2
 texture = ExtResource( 4 )
 
 [node name="Talisman_anims" type="AnimationPlayer" parent="Talisman"]
+anims/Alive = SubResource( 18 )
 anims/Default = SubResource( 4 )
 anims/Float = SubResource( 5 )
+anims/RESET = SubResource( 10 )
+anims/Revieve_offer = SubResource( 11 )
 
 [node name="Offering_zone" type="Area2D" parent="."]
 collision_layer = 2
@@ -190,6 +733,13 @@ position = Vector2( 0, 20 )
 scale = Vector2( 1, 0.468 )
 shape = SubResource( 2 )
 
+[node name="Game_timer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="Ending_timer" type="Timer" parent="."]
+wait_time = 7.0
+one_shot = true
+
 [node name="SFX" type="Node2D" parent="."]
 
 [node name="Circle_ambience" type="AudioStreamPlayer2D" parent="SFX"]
@@ -198,4 +748,46 @@ stream = ExtResource( 6 )
 attenuation = 15.0
 bus = "Scenery"
 
+[node name="Finish" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource( 11 )
+bus = "Game"
+
+[node name="Well_done" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource( 14 )
+bus = "Game"
+
+[node name="End" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource( 10 )
+bus = "Game"
+
+[node name="Anims" type="AnimationPlayer" parent="."]
+anims/Default = SubResource( 15 )
+anims/End = SubResource( 17 )
+anims/First = SubResource( 16 )
+
+[node name="Screen_fx" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="White" type="ColorRect" parent="Screen_fx"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 1, 1, 1, 0 )
+
+[node name="Invert" type="ColorRect" parent="Screen_fx"]
+visible = false
+material = SubResource( 14 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Black" type="ColorRect" parent="Screen_fx"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 1 )
+
 [connection signal="body_entered" from="Offering_zone" to="." method="_on_Offering_zone_body_entered"]
+[connection signal="timeout" from="Game_timer" to="." method="_on_Game_timer_timeout"]
+[connection signal="timeout" from="Ending_timer" to="." method="_on_Ending_timer_timeout"]

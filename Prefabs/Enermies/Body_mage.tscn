@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/Body.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Enemies/Mage_body.png" type="Texture" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://SFX/SFX/Kill.wav" type="AudioStream" id=7]
 [ext_resource path="res://SFX/SFX/Dragging.wav" type="AudioStream" id=8]
 [ext_resource path="res://addons/randomAudioStreamPlayer/random_audio_stream_player_2D.gd" type="Script" id=9]
+[ext_resource path="res://Sprites/FX/Knife_puff.png" type="Texture" id=10]
+[ext_resource path="res://SFX/SFX/Sacrifice_sound.wav" type="AudioStream" id=11]
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 12.5, 6.5 )
@@ -23,6 +25,27 @@ radius = 13.0
 size = 13
 font_data = ExtResource( 4 )
 
+[sub_resource type="Shader" id=9]
+code = "shader_type canvas_item;
+
+uniform bool active = false;
+
+void fragment() {
+	vec4 previous_color = texture(TEXTURE, UV);
+	vec4 white_color = vec4(1.0, 1.0, 1.0, previous_color.a);
+	vec4 new_color = previous_color;
+	if (active == true)
+	{
+		new_color = white_color
+	}
+	COLOR = new_color;
+}"
+
+[sub_resource type="ShaderMaterial" id=10]
+resource_local_to_scene = true
+shader = SubResource( 9 )
+shader_param/active = false
+
 [sub_resource type="Curve" id=2]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.504951, 0.9875 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
@@ -36,6 +59,136 @@ colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [sub_resource type="Curve" id=8]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.183168, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.490099, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Curve" id=11]
+max_value = 1.5
+_data = [ Vector2( 0.00495049, 0.0596591 ), 0.0, 0.0, 0, 0, Vector2( 0.351485, 1.5 ), 0.0, 0.0, 0, 0, Vector2( 0.549505, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0732955 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Animation" id=12]
+resource_name = "Default"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body_sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("CPUParticles2D4:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body_sprite:material:shader_param/active")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "Execute"
+
+[sub_resource type="Animation" id=14]
+resource_name = "Offer"
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body_sprite:material:shader_param/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.01, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body_sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.01, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.4, 1.4 ), Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("CPUParticles2D4:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.01, 0.02 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath("SFX/Sacrifice")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
+
+[sub_resource type="Animation" id=15]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body_sprite:material:shader_param/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
 
 [node name="Body" type="KinematicBody2D" groups=["Body"]]
 collision_layer = 2
@@ -71,12 +224,12 @@ margin_right = 37.0
 margin_bottom = -8.0
 custom_colors/font_color = Color( 0.631373, 0.239216, 0.466667, 1 )
 custom_fonts/font = SubResource( 3 )
-text = "E to execute
-Q to drag"
+text = "Q to drag"
 
 [node name="Tween" type="Tween" parent="Interaction_box/Text"]
 
 [node name="Body_sprite" type="Sprite" parent="."]
+material = SubResource( 10 )
 texture = ExtResource( 2 )
 offset = Vector2( 0, -15.801 )
 
@@ -129,6 +282,23 @@ scale_amount_random = 1.0
 scale_amount_curve = SubResource( 8 )
 color = Color( 0.937255, 0.796078, 0.517647, 1 )
 
+[node name="CPUParticles2D4" type="CPUParticles2D" parent="."]
+emitting = false
+lifetime = 0.7
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource( 10 )
+emission_shape = 2
+emission_rect_extents = Vector2( 10, 0 )
+direction = Vector2( 0, -1 )
+spread = 0.0
+gravity = Vector2( 0, -10 )
+initial_velocity = 53.76
+initial_velocity_random = 1.0
+scale_amount = 1.5
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 11 )
+
 [node name="Goop_timer" type="Timer" parent="."]
 wait_time = 0.15
 one_shot = true
@@ -150,6 +320,19 @@ random_pitch_range = 0.7
 [node name="Dragging" type="AudioStreamPlayer2D" parent="SFX"]
 stream = ExtResource( 8 )
 bus = "Game"
+
+[node name="Sacrifice" type="AudioStreamPlayer2D" parent="SFX"]
+bus = "Game"
+script = ExtResource( 9 )
+samples = [ ExtResource( 11 ) ]
+random_volume_range = 0
+random_pitch_range = 0.7
+
+[node name="anims" type="AnimationPlayer" parent="."]
+anims/Default = SubResource( 12 )
+anims/Execute = SubResource( 13 )
+anims/Offer = SubResource( 14 )
+anims/RESET = SubResource( 15 )
 
 [connection signal="body_entered" from="Interaction_box" to="." method="_on_Interaction_box_body_entered"]
 [connection signal="body_exited" from="Interaction_box" to="." method="_on_Interaction_box_body_exited"]

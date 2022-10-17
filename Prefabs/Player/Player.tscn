@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=2]
+[gd_scene load_steps=69 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Player/Player.png" type="Texture" id=2]
@@ -13,6 +13,9 @@
 [ext_resource path="res://Sprites/FX/Light.png" type="Texture" id=11]
 [ext_resource path="res://Sprites/UI/HP_bar.png" type="Texture" id=12]
 [ext_resource path="res://Sprites/UI/Circle_pointer.png" type="Texture" id=13]
+[ext_resource path="res://SFX/SFX/In_light.wav" type="AudioStream" id=14]
+[ext_resource path="res://SFX/SFX/Death_sound.wav" type="AudioStream" id=15]
+[ext_resource path="res://SFX/SFX/stand_up.wav" type="AudioStream" id=16]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7.5, 2.5 )
@@ -224,26 +227,12 @@ tracks/3/keys = {
 "values": [ false ]
 }
 tracks/4/type = "method"
-tracks/4/path = NodePath(".")
+tracks/4/path = NodePath("Mouse")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0.45 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "queue_free"
-} ]
-}
-tracks/5/type = "method"
-tracks/5/path = NodePath("Mouse")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -403,6 +392,46 @@ tracks/3/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.4, 0.8, 1.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "shake"
+}, {
+"args": [  ],
+"method": "shake"
+}, {
+"args": [  ],
+"method": "shake"
+} ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath("SFX/Stand_up")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.4, 0.8, 1.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+}, {
+"args": [ 0.0 ],
+"method": "play"
+}, {
+"args": [ 0.0 ],
+"method": "play"
+} ]
 }
 
 [sub_resource type="Animation" id=28]
@@ -650,6 +679,7 @@ height = 26.0
 
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 script = ExtResource( 1 )
+can_move = false
 
 [node name="Cam_transform" type="RemoteTransform2D" parent="."]
 position = Vector2( 0, -12 )
@@ -687,8 +717,12 @@ position = Vector2( 0, -15 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 22 )
 animation = "Idle"
-frame = 3
+frame = 1
 offset = Vector2( 0, -13 )
+
+[node name="Restart_timer" type="Timer" parent="."]
+wait_time = 0.6
+one_shot = true
 
 [node name="Player_anims" type="AnimationPlayer" parent="."]
 anims/Default = SubResource( 23 )
@@ -801,5 +835,24 @@ samples = [ ExtResource( 9 ) ]
 random_volume_range = 0
 random_pitch_range = 0.5
 
+[node name="Enter_light" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource( 14 )
+bus = "Player"
+
+[node name="Death" type="AudioStreamPlayer2D" parent="SFX"]
+bus = "Player"
+script = ExtResource( 7 )
+samples = [ ExtResource( 15 ) ]
+random_volume_range = 0
+random_pitch_range = 0.3
+
+[node name="Stand_up" type="AudioStreamPlayer2D" parent="SFX"]
+bus = "Player"
+script = ExtResource( 7 )
+samples = [ ExtResource( 16 ) ]
+random_volume_range = 0
+random_pitch_range = 0.7
+
+[connection signal="timeout" from="Restart_timer" to="." method="_on_Restart_timer_timeout"]
 [connection signal="body_entered" from="Knife/Area2D" to="Knife" method="_on_Area2D_body_entered"]
 [connection signal="timeout" from="Knife/Attack_timer" to="Knife" method="_on_Attack_timer_timeout"]

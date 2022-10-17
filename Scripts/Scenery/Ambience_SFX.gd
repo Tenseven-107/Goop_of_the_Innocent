@@ -9,4 +9,11 @@ onready var music = $Music
 func _ready():
 	wind.play()
 	crickets.play()
-	music.play()
+
+	GlobalSignals.connect("start", music, "play")
+	GlobalSignals.connect("end", self, "end")
+
+
+func end():
+	crickets.stop()
+	music.stop()
