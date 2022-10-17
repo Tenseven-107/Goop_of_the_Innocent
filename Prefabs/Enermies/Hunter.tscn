@@ -1,0 +1,303 @@
+[gd_scene load_steps=26 format=2]
+
+[ext_resource path="res://Sprites/FX/Dust_puff.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Enemies/Hunter.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/FX/Light.png" type="Texture" id=3]
+[ext_resource path="res://Scripts/Gameplay/Light_zone.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/Enemies/Hunter.gd" type="Script" id=5]
+[ext_resource path="res://SFX/SFX/Eye_scan.wav" type="AudioStream" id=6]
+[ext_resource path="res://SFX/SFX/cartoony_step_1.wav" type="AudioStream" id=7]
+[ext_resource path="res://Sprites/FX/Light_view.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Enemies/Spell.png" type="Texture" id=9]
+[ext_resource path="res://SFX/SFX/Spawn_light.wav" type="AudioStream" id=10]
+[ext_resource path="res://addons/randomAudioStreamPlayer/random_audio_stream_player_2D.gd" type="Script" id=11]
+[ext_resource path="res://Prefabs/Enermies/Spell.tscn" type="PackedScene" id=12]
+[ext_resource path="res://SFX/SFX/Monster_growl_3.wav" type="AudioStream" id=13]
+[ext_resource path="res://SFX/SFX/Monster_growl_4.wav" type="AudioStream" id=14]
+[ext_resource path="res://SFX/SFX/Monster_growl_2.wav" type="AudioStream" id=15]
+[ext_resource path="res://SFX/SFX/Monster_growl.wav" type="AudioStream" id=16]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 26.5, 22.5 )
+
+[sub_resource type="Curve" id=7]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.257426, 0.990909 ), 0.0, 0.0, 0, 0, Vector2( 0.990099, 0.0454545 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CanvasItemMaterial" id=8]
+blend_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id=6]
+blend_mode = 1
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 26.0768
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.183168, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.490099, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Animation" id=9]
+resource_name = "hurt"
+
+[sub_resource type="Animation" id=4]
+resource_name = "idle"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Character:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Character:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Dust:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Character:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "walk"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Character:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.3, 0.5, 0.6, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.8, 1.2 ), Vector2( 1, 0.8 ), Vector2( 1, 1 ), Vector2( 1, 0.8 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Character:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -1 ), Vector2( 0, -3 ), Vector2( 0, 0.5 ), Vector2( 0, -1 ), Vector2( 0, -3 ), Vector2( 0, 0.5 ), Vector2( 0, -1 ), Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Dust:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Character:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -4.0, 0.0, 0.0, 4.0, 0.0 ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath("SFX/Footstep")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.3, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+}, {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
+
+[node name="Hunter" type="KinematicBody2D"]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource( 5 )
+spell = ExtResource( 12 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.5, -22.5 )
+shape = SubResource( 1 )
+
+[node name="Idle_timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Roam_timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="Track_timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="Eye_timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="Character" type="Node2D" parent="."]
+position = Vector2( 0, -3 )
+
+[node name="Sprite" type="Sprite" parent="Character"]
+texture = ExtResource( 2 )
+offset = Vector2( 0, -32 )
+
+[node name="Light_spell_fx" type="CPUParticles2D" parent="Character"]
+position = Vector2( 2, -23 )
+emitting = false
+amount = 4
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource( 9 )
+spread = 180.0
+initial_velocity = 36.69
+initial_velocity_random = 1.0
+scale_amount = 0.5
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 7 )
+
+[node name="Eye" type="Node2D" parent="Character"]
+position = Vector2( 2, -23 )
+
+[node name="Damage_zone" type="Area2D" parent="Character/Eye"]
+script = ExtResource( 4 )
+
+[node name="Light_sprite" type="Sprite" parent="Character/Eye/Damage_zone"]
+material = SubResource( 8 )
+scale = Vector2( 0.5, 0.5 )
+z_index = 5
+texture = ExtResource( 8 )
+offset = Vector2( -125, 0 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Character/Eye/Damage_zone"]
+polygon = PoolVector2Array( 0, 0, -117, -22, -117, 22 )
+
+[node name="Damage_zone" type="Area2D" parent="."]
+position = Vector2( 2, -23 )
+script = ExtResource( 4 )
+
+[node name="Light" type="Sprite" parent="Damage_zone"]
+modulate = Color( 0.937255, 0.796078, 0.517647, 1 )
+material = SubResource( 6 )
+scale = Vector2( 0.5, 0.5 )
+z_index = 5
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Damage_zone"]
+shape = SubResource( 3 )
+
+[node name="Dust" type="CPUParticles2D" parent="."]
+amount = 20
+lifetime = 0.3
+local_coords = false
+texture = ExtResource( 1 )
+emission_shape = 2
+emission_rect_extents = Vector2( 15, 1 )
+direction = Vector2( 0, 0 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 27.52
+initial_velocity_random = 1.0
+scale_amount = 0.5
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 2 )
+color = Color( 0.937255, 0.796078, 0.517647, 1 )
+
+[node name="Anims" type="AnimationPlayer" parent="."]
+anims/hurt = SubResource( 9 )
+anims/idle = SubResource( 4 )
+anims/walk = SubResource( 5 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+position = Vector2( -3.8147e-06, -19 )
+scale = Vector2( 9.6, 8.4 )
+
+[node name="SFX" type="Node2D" parent="."]
+
+[node name="Footstep" type="AudioStreamPlayer2D" parent="SFX"]
+pitch_scale = 0.6
+attenuation = 17.7531
+bus = "Enemies"
+script = ExtResource( 11 )
+samples = [ ExtResource( 7 ) ]
+random_volume_range = 0
+random_pitch_range = 0.5
+
+[node name="Spawn_light" type="AudioStreamPlayer2D" parent="SFX"]
+attenuation = 20.0
+bus = "Enemies"
+script = ExtResource( 11 )
+samples = [ ExtResource( 10 ) ]
+random_volume_range = 0
+random_pitch_range = 0.7
+
+[node name="Eye_scan" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource( 6 )
+attenuation = 30.0
+bus = "Enemies"
+
+[node name="Monster_growl" type="AudioStreamPlayer2D" parent="SFX"]
+bus = "Hunter"
+script = ExtResource( 11 )
+samples = [ ExtResource( 16 ), ExtResource( 15 ), ExtResource( 13 ), ExtResource( 14 ) ]
+random_volume_range = 0
+random_pitch_range = 0.7
+
+[connection signal="timeout" from="Idle_timer" to="." method="_on_Idle_timer_timeout"]
+[connection signal="timeout" from="Roam_timer" to="." method="_on_Roam_timer_timeout"]
+[connection signal="timeout" from="Track_timer" to="." method="_on_Track_timer_timeout"]
+[connection signal="body_entered" from="Character/Eye/Damage_zone" to="Character/Eye/Damage_zone" method="_on_Damage_zone_body_entered"]
+[connection signal="body_exited" from="Character/Eye/Damage_zone" to="Character/Eye/Damage_zone" method="_on_Damage_zone_body_exited"]
+[connection signal="body_entered" from="Damage_zone" to="Damage_zone" method="_on_Damage_zone_body_entered"]
+[connection signal="body_exited" from="Damage_zone" to="Damage_zone" method="_on_Damage_zone_body_exited"]

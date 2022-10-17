@@ -15,7 +15,6 @@ export (int) var spawn_zone_y: int
 export (int) var exlcluded_zone_x: int
 export (int) var exlcluded_zone_y: int
 
-
 # Set up
 func _ready():
 	randomize()

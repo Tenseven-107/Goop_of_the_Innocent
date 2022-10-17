@@ -16,7 +16,7 @@ onready var anim_tree = $AnimationTree
 
 export (bool) var can_move: bool = true
 var speed: int = 0
-export (int) var max_speed: int = 5000
+export (int) var max_speed: int = 6000
 export (int) var run_multiplier: int = 2
 var velocity: Vector2 = Vector2()
 

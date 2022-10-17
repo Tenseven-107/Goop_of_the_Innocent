@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Sprites/FX/Light.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Gameplay/Light_zone.gd" type="Script" id=2]
@@ -27,6 +27,9 @@ shader_param/active = false
 
 [sub_resource type="CircleShape2D" id=3]
 radius = 24.1868
+
+[sub_resource type="CanvasItemMaterial" id=6]
+blend_mode = 1
 
 [sub_resource type="Animation" id=4]
 length = 0.001
@@ -101,6 +104,7 @@ shape = SubResource( 3 )
 
 [node name="Light" type="Sprite" parent="Spell_sprite/Damage_zone"]
 modulate = Color( 0.937255, 0.796078, 0.517647, 1 )
+material = SubResource( 6 )
 scale = Vector2( 0.5, 0.5 )
 z_index = 5
 texture = ExtResource( 1 )

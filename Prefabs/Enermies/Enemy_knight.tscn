@@ -145,7 +145,7 @@ texture = ExtResource( 2 )
 offset = Vector2( -125, 0 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Character/Eye/Damage_zone"]
-polygon = PoolVector2Array( 0, 0, -228, -43, -228, 43 )
+polygon = PoolVector2Array( 0, 0, -246, -46, -246, 46 )
 
 [node name="Sprites" type="Node2D" parent="Character"]
 
