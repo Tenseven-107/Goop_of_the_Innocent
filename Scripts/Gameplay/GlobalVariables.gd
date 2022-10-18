@@ -1,4 +1,4 @@
 extends Node
 
 
-var best_time: int = 0
+var latest_run: String = "0:0:0"

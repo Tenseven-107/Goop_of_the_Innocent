@@ -1,6 +1,9 @@
 extends YSort
 
 
+export (PackedScene) var main_menu: PackedScene = load("res://Scenes/Game/Main_menu.tscn")
+
+
 onready var sacriffice_counter = $Circle/Label
 onready var game_timer = $Game_timer
 onready var ending_timer = $Ending_timer
@@ -57,8 +60,7 @@ func _on_Offering_zone_body_entered(body: Node):
 			anims.play("End")
 			talisman_anims.play("Alive")
 
-			if m > GlobalVariables.best_time:
-				GlobalVariables.best_time = m
+			GlobalVariables.latest_run = total_time
 
 			if is_instance_valid(player):
 				player.invincible = true
@@ -106,7 +108,7 @@ func _on_Game_timer_timeout():
 
 # End game
 func _on_Ending_timer_timeout():
-	get_tree().reload_current_scene() # Replace with back to menu
+	get_tree().change_scene_to(main_menu)
 
 
 

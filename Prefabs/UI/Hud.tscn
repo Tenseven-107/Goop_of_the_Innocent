@@ -49,7 +49,7 @@ void fragment() {
 [sub_resource type="ShaderMaterial" id=4]
 resource_local_to_scene = true
 shader = SubResource( 3 )
-shader_param/circle_size = 0.447
+shader_param/circle_size = 0.0
 shader_param/screen_width = 240.0
 shader_param/screen_height = 160.0
 
@@ -93,12 +93,12 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 0.447 ]
+"values": [ 0.0 ]
 }
 
 [sub_resource type="Animation" id=8]
 resource_name = "Transition_in"
-length = 0.3
+length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Transition:material:shader_param/circle_size")
 tracks/0/interp = 1
@@ -106,7 +106,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3 ),
+"times": PoolRealArray( 0, 0.6 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 0.0, 1.05 ]
@@ -118,7 +118,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3 ),
+"times": PoolRealArray( 0, 0.6 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -169,7 +169,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Transition" type="ColorRect" parent="."]
-visible = false
 material = SubResource( 4 )
 anchor_right = 1.0
 anchor_bottom = 1.0

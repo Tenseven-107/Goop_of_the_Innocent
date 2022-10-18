@@ -679,7 +679,6 @@ height = 26.0
 
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 script = ExtResource( 1 )
-can_move = false
 
 [node name="Cam_transform" type="RemoteTransform2D" parent="."]
 position = Vector2( 0, -12 )
@@ -717,7 +716,7 @@ position = Vector2( 0, -15 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 22 )
 animation = "Idle"
-frame = 1
+frame = 2
 offset = Vector2( 0, -13 )
 
 [node name="Restart_timer" type="Timer" parent="."]

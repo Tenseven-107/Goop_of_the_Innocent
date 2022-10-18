@@ -1,6 +1,8 @@
 extends Node2D
 
 
+export (PackedScene) var pause: PackedScene = load("res://Prefabs/UI/Pause_menu.tscn")
+
 onready var game_cam = $Game_camera
 onready var hunter_container = $World/Enemies/Hunter_container
 onready var circle = $World/Important/Sacrifical_circle
@@ -13,6 +15,7 @@ var player_node = null
 func _ready():
 	randomize()
 	Engine.time_scale = 1
+	Input.mouse_mode = 3
 
 	# Setting camera to player pos
 	player_node = get_tree().get_nodes_in_group("Player")
@@ -23,3 +26,9 @@ func _ready():
 		hunter_container.initialize(player)
 		circle.initialize(player)
 		hud.initialize(player)
+
+
+func _unhandled_input(event):
+	if Input.is_action_just_pressed("pause"):
+		var pause_inst = pause.instance()
+		add_child(pause_inst)

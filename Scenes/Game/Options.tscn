@@ -1,0 +1,82 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Sprites/UI/Default_theme.tres" type="Theme" id=1]
+[ext_resource path="res://Sprites/UI/Fonts/CHILLER.TTF" type="DynamicFontData" id=2]
+[ext_resource path="res://Scripts/UI/Options.gd" type="Script" id=3]
+[ext_resource path="res://SFX/SFX/Kill.wav" type="AudioStream" id=4]
+[ext_resource path="res://SFX/SFX/cartoony_step_1.wav" type="AudioStream" id=5]
+[ext_resource path="res://addons/randomAudioStreamPlayer/random_audio_stream_player.gd" type="Script" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+size = 11
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[node name="Options_menu" type="CanvasLayer"]
+script = ExtResource( 3 )
+
+[node name="Buttons" type="VBoxContainer" parent="."]
+anchor_left = 0.24375
+anchor_top = -0.146875
+anchor_right = 0.75625
+anchor_bottom = 1.15937
+rect_scale = Vector2( 1e-05, 1e-05 )
+rect_pivot_offset = Vector2( 61, 104 )
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="CheckBox" type="CheckBox" parent="Buttons"]
+margin_top = 23.0
+margin_right = 123.0
+margin_bottom = 55.0
+theme = ExtResource( 1 )
+text = "Fullscreen"
+
+[node name="Label" type="Label" parent="Buttons"]
+margin_top = 59.0
+margin_right = 123.0
+margin_bottom = 158.0
+custom_colors/font_color = Color( 0.12549, 0.54902, 0.698039, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "Made by Tenseven, 
+for the 50th godot wildjam.
+Credits to freesound.org and
+opengameart.org for CC0 sounds
+mixed for the game.
+And thank YOU for playing!!"
+
+[node name="Back_button" type="Button" parent="Buttons"]
+margin_top = 162.0
+margin_right = 123.0
+margin_bottom = 184.0
+theme = ExtResource( 1 )
+text = "Back"
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Exit_timer" type="Timer" parent="."]
+wait_time = 0.11
+one_shot = true
+
+[node name="SFX" type="Node" parent="."]
+
+[node name="Hover" type="AudioStreamPlayer" parent="SFX"]
+bus = "Game"
+script = ExtResource( 6 )
+samples = [ ExtResource( 5 ) ]
+random_volume_range = 0
+random_pitch_range = 0.7
+
+[node name="Select" type="AudioStreamPlayer" parent="SFX"]
+bus = "Game"
+script = ExtResource( 6 )
+samples = [ ExtResource( 4 ) ]
+random_volume_range = 0
+random_pitch_range = 0.7
+
+[connection signal="toggled" from="Buttons/CheckBox" to="." method="_on_CheckBox_toggled"]
+[connection signal="pressed" from="Buttons/Back_button" to="." method="_on_Back_button_pressed"]
+[connection signal="timeout" from="Exit_timer" to="." method="_on_Exit_timer_timeout"]
