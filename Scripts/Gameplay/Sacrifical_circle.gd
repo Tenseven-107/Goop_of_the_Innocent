@@ -90,7 +90,7 @@ func _process(delta):
 
 # Run speedrun timer
 func run_gametimer():
-	if ms > 9:
+	if ms > 59:
 		s += 1
 		ms = 0
 

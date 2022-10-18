@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/Body.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Enemies/Knight_body.png" type="Texture" id=2]
@@ -103,9 +103,6 @@ tracks/2/keys = {
 "update": 1,
 "values": [ false ]
 }
-
-[sub_resource type="Animation" id=13]
-resource_name = "Execute"
 
 [sub_resource type="Animation" id=14]
 resource_name = "Offer"
@@ -224,7 +221,8 @@ margin_right = 37.0
 margin_bottom = -8.0
 custom_colors/font_color = Color( 0.631373, 0.239216, 0.466667, 1 )
 custom_fonts/font = SubResource( 3 )
-text = "Q to drag"
+text = "E to execute
+Q to drag"
 
 [node name="Tween" type="Tween" parent="Interaction_box/Text"]
 
@@ -330,7 +328,6 @@ random_pitch_range = 0.7
 
 [node name="anims" type="AnimationPlayer" parent="."]
 anims/Default = SubResource( 12 )
-anims/Execute = SubResource( 13 )
 anims/Offer = SubResource( 14 )
 anims/RESET = SubResource( 15 )
 

@@ -50,6 +50,7 @@ func _ready():
 
 # Process
 func _physics_process(delta):
+	# Activate_drag
 	if Input.is_action_just_pressed("drag") and active and !player.drag_mode:
 		drag_mode = true
 		interaction_box.disabled = true
@@ -59,6 +60,18 @@ func _physics_process(delta):
 
 		if is_instance_valid(player):
 			player.drag_mode = true
+
+	# Execute
+	if Input.is_action_just_pressed("execute") and active:
+		active = false
+		interaction_box.disabled = true
+
+		text.hide()
+		goop_particles.hide()
+
+		anims.play("Offer")
+		if is_instance_valid(player):
+			player.get_kunai(1)
 
 	if drag_mode and is_instance_valid(player):
 		global_position = player.global_position

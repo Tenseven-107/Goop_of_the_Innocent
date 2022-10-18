@@ -3,6 +3,7 @@ extends KinematicBody2D
 
 onready var cam_transform = $Cam_transform
 onready var weapon = $Knife
+onready var thrower = $Thrower
 
 onready var sprite = $AnimatedSprite
 onready var cursor = $Mouse
@@ -18,6 +19,8 @@ onready var restart_timer = $Restart_timer
 
 onready var damage_sfx = $SFX/Enter_light
 onready var death_sfx = $SFX/Death
+
+onready var parent = get_parent()
 
 export (bool) var can_move: bool = true
 var speed: int = 0
@@ -47,6 +50,7 @@ func _ready():
 	can_move = false
 	in_light = false
 	weapon.initialize(self)
+	thrower.initialize(parent)
 
 	hp = max_hp
 	hp_bar.max_value = max_hp
@@ -97,8 +101,10 @@ func movement(delta):
 
 		if Input.is_action_pressed("run") and !drag_mode:
 			speed *= run_multiplier
+			thrower.active = false
 		else:
 			speed = max_speed
+			thrower.active = true
 		speed = int(clamp(speed, 0, max_speed * run_multiplier))
 
 		move_anims()
@@ -185,6 +191,12 @@ func die():
 
 func _on_Restart_timer_timeout():
 	get_tree().reload_current_scene()
+
+
+
+# Get kunai
+func get_kunai(kunais):
+	thrower.kunais += kunais
 
 
 

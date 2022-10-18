@@ -25,8 +25,12 @@ var player = null
 var speed: int = 2000
 var velocity: Vector2 = Vector2()
 
+export (int) var hp: int = 2
+
 export (int) var aggression: int = 0
 export (int) var needed_aggression: int = 30
+
+export (bool) var anim_loop: bool = true
 
 var rand_rot: float
 var rand_dir: int
@@ -69,7 +73,8 @@ func _physics_process(delta):
 
 			velocity = Vector2(0, 0)
 
-			anims.play("idle")
+			if anim_loop:
+				anims.play("idle")
 
 		ROAM:
 			if roam_timer.is_stopped():
@@ -85,7 +90,8 @@ func _physics_process(delta):
 
 			velocity = velocity.normalized() * speed * delta
 
-			anims.play("walk")
+			if anim_loop:
+				anims.play("walk")
 			eye_sfx.playing = false
 
 		TRACK:
@@ -105,7 +111,8 @@ func _physics_process(delta):
 				velocity = (player.global_position - global_position).normalized()
 				velocity = velocity.normalized() * speed * delta
 
-				anims.play("walk")
+				if anim_loop:
+					anims.play("walk")
 
 				eye.rotation = global_position.angle_to_point(player.global_position)
 
@@ -136,6 +143,18 @@ func _on_Roam_timer_timeout():
 
 func _on_Track_timer_timeout():
 	set_state(ROAM)
+
+
+
+# Taking damage
+func handle_hit():
+	anims.play("hurt")
+	anim_loop = false
+	set_state(IDLE)
+
+	hp -= 1
+	if hp <= 0:
+		aggression = 0
 
 
 

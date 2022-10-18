@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=2]
+[gd_scene load_steps=71 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Player/Player.png" type="Texture" id=2]
@@ -16,6 +16,8 @@
 [ext_resource path="res://SFX/SFX/In_light.wav" type="AudioStream" id=14]
 [ext_resource path="res://SFX/SFX/Death_sound.wav" type="AudioStream" id=15]
 [ext_resource path="res://SFX/SFX/stand_up.wav" type="AudioStream" id=16]
+[ext_resource path="res://Scripts/Player/Thrower.gd" type="Script" id=17]
+[ext_resource path="res://Prefabs/Player/Kunai.tscn" type="PackedScene" id=18]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7.5, 2.5 )
@@ -716,7 +718,6 @@ position = Vector2( 0, -15 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 22 )
 animation = "Idle"
-frame = 2
 offset = Vector2( 0, -13 )
 
 [node name="Restart_timer" type="Timer" parent="."]
@@ -824,6 +825,15 @@ disabled = true
 [node name="Attack_timer" type="Timer" parent="Knife"]
 wait_time = 0.25
 one_shot = true
+
+[node name="Thrower" type="Node2D" parent="."]
+position = Vector2( 0, -12 )
+z_index = 2
+script = ExtResource( 17 )
+kunai = ExtResource( 18 )
+
+[node name="Position2D" type="Position2D" parent="Thrower"]
+position = Vector2( 8, 0 )
 
 [node name="SFX" type="Node2D" parent="."]
 

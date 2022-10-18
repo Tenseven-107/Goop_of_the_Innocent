@@ -3,6 +3,7 @@ extends CanvasLayer
 
 
 onready var vignette = $Vignette
+onready var kunai_counter = $Kunai_counter
 onready var anims = $Anims
 
 var player = null
@@ -24,6 +25,13 @@ func _process(delta):
 
 		if player.dead:
 			anims.play("Transition_out")
+
+		var kunais = player.thrower.kunais
+		if kunais <= 0:
+			kunai_counter.hide()
+		else:
+			kunai_counter.show()
+			kunai_counter.text = str(kunais)
 
 
 
