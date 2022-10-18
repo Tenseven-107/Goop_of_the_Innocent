@@ -16,7 +16,7 @@ boot_splash/image="res://Sprites/UI/Wildcards.png"
 boot_splash/fullsize=false
 boot_splash/use_filter=false
 boot_splash/bg_color=Color( 0.0784314, 0.133333, 0.25098, 1 )
-config/icon="res://icon.png"
+config/icon="res://Sprites/Player/Kunai.png"
 
 [autoload]
 

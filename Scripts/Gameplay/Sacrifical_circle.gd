@@ -16,7 +16,7 @@ onready var anims = $Anims
 var player = null
 
 var sacrifices: int = 0
-export (int) var needed_sacrifices: int = 13
+export (int) var needed_sacrifices: int = 9
 
 export (bool) var anim_loop: bool = true
 export (bool) var started: bool = false
